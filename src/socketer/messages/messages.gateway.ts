@@ -16,6 +16,7 @@ export class MessagesGateway implements OnGatewayInit, OnGatewayConnection, OnGa
 
     afterInit(server: any) {
         this.logger.log(`${MessagesGateway.name} Initialized`);
+        this.logger.log(`${this.messagingServer.name} Initialized`);
     }
 
     handleConnection(client: Socket, args: any[]) {
