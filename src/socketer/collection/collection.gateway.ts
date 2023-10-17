@@ -1,33 +1,30 @@
-import { Logger } from "@nestjs/common";
-import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Namespace, Server, Socket } from "socket.io";
+import { CollectionService } from "./services/collection.service";
 
-@WebSocketGateway()
-export class CollectionGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+@Injectable()
+export class CollectionGateway {
 
     private readonly logger = new Logger(CollectionGateway.name);
 
+
+    constructor(private collectionService: CollectionService) { }
+
     private namespaces: Map<string, Namespace> = new Map<string, Namespace>();
 
-    @WebSocketServer() collectionHost: Server;
-
-    constructor() { }
-
-    afterInit(server: Server) {
-        this.logger.log(`SocketIO for Collection Initialized`);
+    getNamespace(name: string) {
+        if (this.namespaces.has(name)) {
+            return this.namespaces.get(name);
+        }
+        return null;
     }
 
-    createNamespace(namespace: string) {
-        const namespaceServer = this.collectionHost.of(namespace);
-        this.namespaces.set(namespace, this.collectionHost.of(namespace));
+    createNamespace(name: string, nsp: Namespace) {
+        const namespace = this.collectionService.createCollection(name);
+        this.namespaces.set(name, nsp);
+        this.logger.log(`Namespace created: ${name}`);
+        this.logger.log(JSON.stringify(this.namespaces))
+        return namespace;
     }
-
-    handleConnection(client: Socket, ...args: any[]) {
-        this.logger.log(`Client connected: ${client.id}`);
-        this.logger.log(`Client connected: ${this.collectionHost.name}`);
-    }
-    handleDisconnect(client: any) {
-    }
-
-
 }
