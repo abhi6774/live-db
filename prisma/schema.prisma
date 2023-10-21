@@ -14,7 +14,9 @@ model RegisteredApp {
     url         String?
 }
 
-model Messages {
-    id   String @id @default(auto()) @map("_id") @db.ObjectId
-    text String
+model StartUp {
+    id          String  @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    description String?
+    url         String?
 }
