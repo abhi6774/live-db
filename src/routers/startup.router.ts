@@ -1,26 +1,24 @@
 import { Router } from "express";
-import { StartUpService } from "services";
+import { StartUpService } from "../services";
 
 const startup = Router();
 
-
-const startupService = StartUpService.getInstance();
+const startupService = new StartUpService();
 
 startup.get("/", (req, res) => {
     res.json(startupService.getAll());
 });
 
 
-startup.post("/", (req, res) => {
+startup.post("/", async (req, res) => {
     const startup = {
-        id: req.body.id,
         name: req.body.name,
         description: req.body.description,
         logo: req.body.logo,
         cover: req.body.cover,
     }
-    startupService.create(startup);
-    res.json(startup);
+    const created = await startupService.create(startup);
+    res.json(created);
 });
 
 

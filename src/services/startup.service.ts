@@ -1,3 +1,6 @@
+import crypto from "crypto";
+import { Singleton } from "../utils/instancer";
+
 export type Startup = {
     id: string;
     name: string;
@@ -6,18 +9,10 @@ export type Startup = {
     cover?: string;
 }
 
-
+@Singleton
 export default class StartUpService {
 
     private startups = new Map<string, Startup>();
-    private static instance: StartUpService;
-
-    static getInstance() {
-        if (!this.instance) {
-            this.instance = new StartUpService();
-        }
-        return this.instance;
-    }
 
 
     getAll() {
@@ -25,8 +20,10 @@ export default class StartUpService {
     }
 
 
-    create(startup: Startup) {
-        this.startups.set(startup.id, startup);
+    async create(startup: Omit<Startup, "id">): Promise<Startup> {
+        const id = crypto.randomBytes(16).toString("hex");
+        this.startups.set(id, { ...startup, id });
+        return this.startups.get(id) as Startup;
     }
 
     getOne(id: string) {

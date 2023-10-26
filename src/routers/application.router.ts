@@ -1,9 +1,12 @@
 import { Router } from "express";
+import { ApplicationService } from "../services";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-    res.send("Hello World");
+const appService = new ApplicationService();
+
+router.get("/", async (req, res) => {
+    res.send(await appService.getApps());
 });
 
-export { router as ApplicationRouter };
+export default router;

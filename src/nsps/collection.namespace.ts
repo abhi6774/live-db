@@ -1,20 +1,17 @@
-import { Namespace, Server, Socket } from "socket.io";
+import { Server, Socket } from "socket.io";
+import { NamespaceService } from "../services";
 
-const namespaces = new Map<string, Namespace>();
-
-const collectionNamespace = (io: Server) => {
+const collectionNamespace = (io: Server, namespaceService: NamespaceService) => {
     const collection = io.of(/\w*/);
 
-
-
     collection.on("connection", (socket: Socket) => {
-        if (namespaces.has(socket.nsp.name)) {
-            namespaces.get(socket.nsp.name)!.emit("new connection", socket.id);
-        } else {
-            namespaces.set(socket.nsp.name, socket.nsp);
+        const namespace = socket.nsp;
+        const namespaceName = namespace.name;
+
+        if (!namespaceService.has(namespaceName)) {
+            namespaceService.add(namespaceName, namespace);
         }
     });
-
 
     return collection;
 }

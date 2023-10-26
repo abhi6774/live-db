@@ -1,5 +1,14 @@
-import { ApplicationRouter } from "./application.router";
+import { RouterOptions } from "../utils/utils";
+import ApplicationRouter from "./application.router";
+import StartUpRouter from "./startup.router";
 
-export { default as StartUpRouter } from "./startup.router";
-export { ApplicationRouter };
+export {
+    ApplicationRouter,
+    StartUpRouter
+};
 
+const routers: RouterOptions[] = [
+    { path: "/application", router: ApplicationRouter },
+    { path: "/startup", router: StartUpRouter }
+]
+export default routers;
