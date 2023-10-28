@@ -19,7 +19,6 @@ export default class StartUpService {
         return this.startups.values();
     }
 
-
     async create(startup: Omit<Startup, "id">): Promise<Startup> {
         const id = crypto.randomBytes(16).toString("hex");
         this.startups.set(id, { ...startup, id });

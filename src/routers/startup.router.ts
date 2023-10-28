@@ -1,24 +1,26 @@
 import { Router } from "express";
-import { StartUpService } from "../services";
+import { NamespaceService, StartUpService } from "../services";
+import { collections } from "../services/namespaces.service";
 
 const startup = Router();
 
 const startupService = new StartUpService();
 
+const namespaceService = new NamespaceService();
+
 startup.get("/", (req, res) => {
-    res.json(startupService.getAll());
+    res.json(collections.startup.get("2"));
 });
 
 
 startup.post("/", async (req, res) => {
-    const startup = {
+    collections.startup.set(req.body.id, {
+        id: req.body.id,
         name: req.body.name,
-        description: req.body.description,
-        logo: req.body.logo,
-        cover: req.body.cover,
-    }
-    const created = await startupService.create(startup);
-    res.json(created);
+        description: req.body.description
+    });
+    namespaceService.get("/startup")!.in(req.body.id).emit("changes", req.body);
+    res.json(collections.startup.get(req.body.id));
 });
 
 

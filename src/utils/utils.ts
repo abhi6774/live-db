@@ -1,5 +1,10 @@
 import { Express, NextFunction, Router } from "express";
 
+
+export interface ErrorMessage {
+    message: string | null
+}
+
 export interface RouterOptions {
     path: string,
     router: Router
