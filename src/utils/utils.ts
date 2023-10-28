@@ -10,7 +10,7 @@ export interface RouterOptions {
     router: Router
 }
 
-export interface MiddlewareOptions {
+export interface RouterMiddlewareOptions {
     routers: Router[],
     middleware: (req: any, res: any, next: NextFunction) => void
 }
@@ -22,7 +22,7 @@ export function setRouters(routers: RouterOptions[], app: Express) {
 }
 
 
-export function setMiddleWare(options: MiddlewareOptions[]) {
+export function setMiddleWare(options: RouterMiddlewareOptions[]) {
     options.forEach((option) => {
         option.routers.forEach(router => {
             router.use(option.middleware);

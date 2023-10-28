@@ -1,4 +1,3 @@
-
 import { Server, Socket } from "socket.io";
 import { NamespaceService } from "../services";
 import { Logger } from "../utils";
@@ -29,8 +28,6 @@ const collectionNamespace = (io: Server, namespaceService: NamespaceService) => 
             return;
         } else {
             logger.log("Connection Successfull")
-            socket.emit("namespaces", Array.from(namespaceService.getAll().keys()).map(n => ({ name: n, connected: namespaceName === n })));
-            socket.broadcast.in(documentId).emit("rooms", Array.from(socket.rooms.values()))
         }
     });
 

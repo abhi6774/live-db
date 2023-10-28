@@ -25,17 +25,18 @@ app.use(express.json());
 
 io.use(applicationMiddleware.socketIOMiddleware);
 
-const collectionNamespace = CollectionNamespace(io, namespaceService);
-
+CollectionNamespace(io, namespaceService);
 
 (async function () {
     await initPrisma();
+
     setMiddleWare([
         {
             routers: [StartUpRouter],
             middleware: applicationMiddleware.expressMiddleware
         }
     ]);
+
     setRouters(routers, app);
     server.listen(3000, () => console.log("Server running on port 3000"));
 })();
