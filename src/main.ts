@@ -2,7 +2,7 @@ import { configDotenv } from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { initPrisma } from "./database";
+import { initMongoDatabase, initPrisma } from "./database";
 import { ApplicationMiddleware } from "./middlewares";
 import { CollectionNamespace } from "./nsps";
 import routers, { StartUpRouter } from "./routers";
@@ -19,6 +19,7 @@ const io = new Server(server);
 const applicationService = new ApplicationService();
 const namespaceService = new NamespaceService();
 
+// Middlewares
 const applicationMiddleware = new ApplicationMiddleware(applicationService);
 
 app.use(express.json());
@@ -29,6 +30,7 @@ CollectionNamespace(io, namespaceService);
 
 (async function () {
     await initPrisma();
+    await initMongoDatabase();
 
     setMiddleWare([
         {

@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { MongoClient } from "mongodb";
 
 
 export class PrismaService extends PrismaClient {
@@ -27,3 +28,39 @@ export async function initPrisma() {
     await prisma.$connect();
     return prisma;
 }
+
+
+
+export class MongoDatabase extends MongoClient {
+    private static instance: MongoDatabase;
+
+    constructor(mongoUrl: string) {
+        super(mongoUrl);
+    }
+
+    async connect(): Promise<this> {
+        console.log("Connecting to MongoDB database...");
+        await super.connect();
+        return this;
+    }
+
+    async disconnect(): Promise<void> {
+        console.log("Disconnecting from MongoDB database...");
+        await super.close();
+    }
+
+    static getInstance(mongoUrl: string) {
+        if (!this.instance) {
+            this.instance = new MongoDatabase(mongoUrl);
+        }
+        return this.instance;
+    }
+}
+
+export async function initMongoDatabase() {
+    const mongoUrl = process.env.MONGO_URL as string;
+    const mongoDatabase = MongoDatabase.getInstance(mongoUrl);
+    await mongoDatabase.connect();
+    return mongoDatabase;
+}
+

@@ -5,8 +5,10 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "build": "tsc",
+    "test": "node testing/test.js",
     "dev": "nodemon -e ts --exec \"npm run build && node dist/main.js\""
   },
   "dependencies": {
