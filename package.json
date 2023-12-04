@@ -5,11 +5,10 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "node testing/test.js",
-    "dev": "nodemon -e ts --exec \"npm run build && node dist/main.js\""
+    "dev": "nodemon -e ts --exec \"npm run build && bun dist/main.js\""
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",

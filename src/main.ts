@@ -8,6 +8,7 @@ import { CollectionNamespace } from "./nsps";
 import routers, { StartUpRouter } from "./routers";
 import { ApplicationService, NamespaceService } from "./services";
 import { setMiddleWare, setRouters } from "./utils/utils";
+
 configDotenv();
 
 

@@ -1,4 +1,4 @@
-export { } from "./instancer";
+export { Singleton } from "./instancer";
 export { default as Logger } from "./logger";
-export { ErrorMessage, MiddlewareOptions, RouterOptions, setMiddleWare, setRouters } from "./utils";
+export { ErrorMessage, RouterMiddlewareOptions, RouterOptions, setMiddleWare, setRouters } from "./utils";
 

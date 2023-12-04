@@ -58,7 +58,7 @@ export class MongoDatabase extends MongoClient {
 }
 
 export async function initMongoDatabase() {
-    const mongoUrl = process.env.MONGO_URL as string;
+    const mongoUrl = process.env.DATABASE_URL_ROOT as string;
     const mongoDatabase = MongoDatabase.getInstance(mongoUrl);
     await mongoDatabase.connect();
     return mongoDatabase;
